@@ -4,9 +4,12 @@ from django.contrib.auth.models import User
 from django.db import models
 from localflavor.br.br_states import STATE_CHOICES
 
-
+class Char32UUIDField(models.UUIDField):
+    def db_type(self, connection):
+        return "char(32)"
+    
 class UuidModel(models.Model):
-    uuid = models.UUIDField(unique=True, editable=False, default=uuid.uuid4)
+    uuid = Char32UUIDField(unique=True, editable=False, default=uuid.uuid4)
 
     class Meta:
         abstract = True
